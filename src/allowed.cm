@@ -1,0 +1,12 @@
+Library
+   structure Int
+   structure IntInf
+   structure Real
+   structure Math
+   structure Char
+   structure String
+   structure StringCvt
+   structure List
+   structure ListPair
+is
+   $/basis.cm

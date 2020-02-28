@@ -1,0 +1,63 @@
+structure PL = Planner
+%%
+
+%term EOF
+    | IDENT of string 
+    | VAR of string
+    | NUM of string
+    | COLON
+    | COMMA
+    | ARROW
+    | DOT
+    | LPAREN | RPAREN 
+    | LBRACK | RBRACK
+    | INIT | GOAL
+
+%nonterm term of PL.KB.P.term
+       | id of string
+       | args of PL.KB.P.term list
+       | prop of PL.KB.P.t
+       | set of PL.KB.t
+       | init of PL.KB.t
+       | goal of PL.KB.t
+       | rule of PL.rule
+       | rules of PL.rule list
+       | file of PL.rule list * PL.KB.t * PL.KB.t
+
+%verbose
+%pos int
+%start file
+%eop EOF
+%noshift EOF
+%name Lang
+%left COMMA
+%right ARROW
+
+%%
+
+file : rules init goal  ((rules, init, goal))
+
+rules : rule        ([rule])
+      | rule rules  (rule :: rules)
+
+rule : prop COLON set ARROW set DOT (PL.newRule (prop, set1, set2))
+
+init : INIT COLON LBRACK set RBRACK DOT (set)
+
+goal : GOAL COLON LBRACK set RBRACK DOT (set)
+
+set : prop            (PL.KB.create [prop])
+    | prop COMMA set  (PL.KB.add (prop) set)
+
+prop : id                       (PL.KB.P.newProp id [])
+     | id LPAREN args RPAREN    (PL.KB.P.newProp id args)
+
+args : term             ([term])
+     | term COMMA args  (term :: args)
+
+term : VAR    (PL.KB.P.newVar VAR)
+     | IDENT  (PL.KB.P.newConst IDENT)
+     | NUM    (PL.KB.P.newConst NUM)
+
+id : IDENT    (IDENT)
+

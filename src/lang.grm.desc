@@ -1,0 +1,417 @@
+
+state 0:
+
+	file : . rules init goal 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 3
+	rule	goto 2
+	rules	goto 1
+	file	goto 38
+
+	.	error
+
+
+state 1:
+
+	file : rules . init goal 
+
+	INIT	shift 7
+
+	init	goto 6
+
+	.	error
+
+
+state 2:
+
+	rules : rule .  (reduce by rule 1)
+	rules : rule . rules 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 3
+	rule	goto 2
+	rules	goto 8
+
+	.	reduce by rule 1
+
+
+state 3:
+
+	rule : prop . COLON set ARROW set DOT 
+
+	COLON	shift 9
+
+
+	.	error
+
+
+state 4:
+
+	prop : id .  (reduce by rule 8)
+	prop : id . LPAREN args RPAREN 
+
+	LPAREN	shift 10
+
+
+	.	reduce by rule 8
+
+
+state 5:
+
+	id : IDENT .  (reduce by rule 15)
+
+
+
+	.	reduce by rule 15
+
+
+state 6:
+
+	file : rules init . goal 
+
+	GOAL	shift 12
+
+	goal	goto 11
+
+	.	error
+
+
+state 7:
+
+	init : INIT . COLON LBRACK set RBRACK DOT 
+
+	COLON	shift 13
+
+
+	.	error
+
+
+state 8:
+
+	rules : rule rules .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 9:
+
+	rule : prop COLON . set ARROW set DOT 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 15
+	set	goto 14
+
+	.	error
+
+
+state 10:
+
+	prop : id LPAREN . args RPAREN 
+
+	IDENT	shift 20
+	VAR	shift 19
+	NUM	shift 18
+
+	term	goto 17
+	args	goto 16
+
+	.	error
+
+
+state 11:
+
+	file : rules init goal .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 12:
+
+	goal : GOAL . COLON LBRACK set RBRACK DOT 
+
+	COLON	shift 21
+
+
+	.	error
+
+
+state 13:
+
+	init : INIT COLON . LBRACK set RBRACK DOT 
+
+	LBRACK	shift 22
+
+
+	.	error
+
+
+state 14:
+
+	rule : prop COLON set . ARROW set DOT 
+
+	ARROW	shift 23
+
+
+	.	error
+
+
+state 15:
+
+	set : prop .  (reduce by rule 6)
+	set : prop . COMMA set 
+
+	COMMA	shift 24
+
+
+	.	reduce by rule 6
+
+
+state 16:
+
+	prop : id LPAREN args . RPAREN 
+
+	RPAREN	shift 25
+
+
+	.	error
+
+
+state 17:
+
+	args : term .  (reduce by rule 10)
+	args : term . COMMA args 
+
+	COMMA	shift 26
+
+
+	.	reduce by rule 10
+
+
+state 18:
+
+	term : NUM .  (reduce by rule 14)
+
+
+
+	.	reduce by rule 14
+
+
+state 19:
+
+	term : VAR .  (reduce by rule 12)
+
+
+
+	.	reduce by rule 12
+
+
+state 20:
+
+	term : IDENT .  (reduce by rule 13)
+
+
+
+	.	reduce by rule 13
+
+
+state 21:
+
+	goal : GOAL COLON . LBRACK set RBRACK DOT 
+
+	LBRACK	shift 27
+
+
+	.	error
+
+
+state 22:
+
+	init : INIT COLON LBRACK . set RBRACK DOT 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 15
+	set	goto 28
+
+	.	error
+
+
+state 23:
+
+	rule : prop COLON set ARROW . set DOT 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 15
+	set	goto 29
+
+	.	error
+
+
+state 24:
+
+	set : prop COMMA . set 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 15
+	set	goto 30
+
+	.	error
+
+
+state 25:
+
+	prop : id LPAREN args RPAREN .  (reduce by rule 9)
+
+
+
+	.	reduce by rule 9
+
+
+state 26:
+
+	args : term COMMA . args 
+
+	IDENT	shift 20
+	VAR	shift 19
+	NUM	shift 18
+
+	term	goto 17
+	args	goto 31
+
+	.	error
+
+
+state 27:
+
+	goal : GOAL COLON LBRACK . set RBRACK DOT 
+
+	IDENT	shift 5
+
+	id	goto 4
+	prop	goto 15
+	set	goto 32
+
+	.	error
+
+
+state 28:
+
+	init : INIT COLON LBRACK set . RBRACK DOT 
+
+	RBRACK	shift 33
+
+
+	.	error
+
+
+state 29:
+
+	rule : prop COLON set ARROW set . DOT 
+
+	DOT	shift 34
+
+
+	.	error
+
+
+state 30:
+
+	set : prop COMMA set .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 31:
+
+	args : term COMMA args .  (reduce by rule 11)
+
+
+
+	.	reduce by rule 11
+
+
+state 32:
+
+	goal : GOAL COLON LBRACK set . RBRACK DOT 
+
+	RBRACK	shift 35
+
+
+	.	error
+
+
+state 33:
+
+	init : INIT COLON LBRACK set RBRACK . DOT 
+
+	DOT	shift 36
+
+
+	.	error
+
+
+state 34:
+
+	rule : prop COLON set ARROW set DOT .  (reduce by rule 3)
+
+
+
+	.	reduce by rule 3
+
+
+state 35:
+
+	goal : GOAL COLON LBRACK set RBRACK . DOT 
+
+	DOT	shift 37
+
+
+	.	error
+
+
+state 36:
+
+	init : INIT COLON LBRACK set RBRACK DOT .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 37:
+
+	goal : GOAL COLON LBRACK set RBRACK DOT .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 38:
+
+
+	EOF	accept
+
+
+	.	error
+
+23 of 70 action table entries left after compaction
+30 goto table entries
